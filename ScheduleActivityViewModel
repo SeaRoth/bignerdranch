@@ -1,0 +1,44 @@
+class ScheduleActivityViewModel(app: Application) : AndroidViewModel(app) {
+
+    // view models
+    val dailyViewModel   = DailyViewModel(app)
+    val weeklyViewModel  = WeeklyViewModel(app)
+    val monthlyViewModel = MonthlyViewModel(app)
+
+    // Repo
+    private var habitsRepository         = GCServiceLocator.resolve(HabitsRepository::class.java)
+
+    // Coroutines
+    private var parentJob = Job()
+    private val coRoutineContext: CoroutineContext get() = parentJob + Dispatchers.Main
+    private val scope = CoroutineScope(coRoutineContext)
+
+    // Observables
+    val selectedDateState     = ObservableField<ScheduleDateState>(ScheduleDateState.daily)
+    val title                 = ObservableField<String>("WHA?!")
+    val isCreatingNewHabit    = ObservableBoolean(false)
+    val frequencyTimeOfDay    = ObservableField<String>("I will do it once a month in the")
+    val onceText              = ObservableField<String>(getString(R.string.once_at_any_time))
+    val morningSelected       = ObservableBoolean(false)
+    val afternoonSelected     = ObservableBoolean(false)
+    val eveningSelected       = ObservableBoolean(false)
+    val onceAtAnyTimeSelected = ObservableBoolean(false)
+
+    // Actions
+    val actionSetAlarmManager  = LiveDataActionWithData<Habit>()
+    val actionTalkToUser       = LiveDataActionWithData<String>()
+    val actionHowRemindersWork = LiveDataAction()
+    val actionAddTime          = LiveDataAction()
+
+    // data
+    lateinit var habit: Habit
+    val allReminderTimes = mutableListOf<LocalDateTime>()
+
+    init {
+        clickedDateState(ScheduleDateState.daily)
+    }
+
+    fun insertHabitIntoDb(habit: Habit) {
+        scope.launch(Dispatchers.IO) { habitsRepository.insertHabitIntoDb(habit) }
+    }
+}
