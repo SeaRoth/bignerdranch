@@ -6,4 +6,4 @@ ScheduleActivityViewModel.kt
 
 When working with large classes it's very useful to separate your different actions, observables, data, repository, jobs, etc.
 
-![](pic.png)
+![](pic.PNG)
