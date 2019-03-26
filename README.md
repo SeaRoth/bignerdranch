@@ -4,6 +4,6 @@ Please provide a code sample that exemplifies an important aspect of your coding
 
 ScheduleActivityViewModel.kt
 
-When working with large classes it's very useful to separate your different actions, observables, data, repository, jobs, etc.
+My answer: Keep variables organized.
 
 ![](pic.PNG)
