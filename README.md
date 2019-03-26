@@ -7,3 +7,5 @@ ScheduleActivityViewModel.kt
 My answer: Keep variables organized.
 
 ![](pic.PNG)
+## vs.
+![](pic1.PNG)
